@@ -8,4 +8,5 @@ gem 'mysql'
 group :development do
   gem 'rerun'
   gem 'rb-fsevent', '~> 0.9'
+  gem 'tux'
 end
