@@ -13,3 +13,19 @@ get '/regions/:id' do
   
   return response.to_json
 end
+
+get '/regions/:region_id/constellations' do
+  content_type :json
+  
+  response = Constellation.search(params)
+  
+  return response.to_json
+end
+
+get '/regions/:region_id/constellations/:id' do
+  content_type :json
+  
+  response = Constellation.search(params)
+  
+  return response.to_json
+end
