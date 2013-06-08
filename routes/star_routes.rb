@@ -6,7 +6,7 @@ get '/stars' do
 
     return response.to_json
   elsif params[:name]
-    response = Star.find_by_sql("SELECT solarSystemID, solarSystemName, ROUND(security, 1) as security, securityClass FROM mapSolarSystems WHERE solarSystemName LIKE '#{params[:name]}'")
+    response = Star.find_by_sql("SELECT solarSystemID, solarSystemName, ROUND(security, 1) as security, securityClass FROM mapSolarSystems WHERE solarSystemName LIKE '%#{params[:name]}%'")
 
     return response.to_json    
   elsif params[:security]
