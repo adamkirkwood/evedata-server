@@ -11,5 +11,4 @@ class InventoryType < ActiveRecord::Base
     options[:only] = [:id, :name]
     super
   end
-
 end
