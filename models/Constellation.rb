@@ -19,5 +19,6 @@ class Constellation < ActiveRecord::Base
     regions = Constellation.by_id(params[:id])
                            .by_name(params[:name])
                            .by_region_id(params[:region_id])
+                           .limit(params[:limit])
   end
 end
