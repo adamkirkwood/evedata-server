@@ -26,13 +26,6 @@ get '/structures/:id' do
   content_type :json
 
   if params[:id]
-    # Structure.establish_connection(
-    #   adapter: 'mysql2', 
-    #   host: 'external-db.s6547.gridserver.com',
-    #   database: 'db6547_evedata',
-    #   username: 'db6547_evedata',
-    #   password: 'evedataio')
-
     response = Structure.find_by_sql("SELECT invTypes.typeID, invTypes.typeName
       FROM invTypes
       INNER JOIN invGroups ON invTypes.groupID = invGroups.groupID
@@ -47,12 +40,7 @@ get '/structures/:id' do
 end
 
 get '/structures' do
-  # Structure.establish_connection(
-  #   adapter: 'mysql2', 
-  #   host: 'external-db.s6547.gridserver.com',
-  #   database: 'db6547_evedata',
-  #   username: 'db6547_evedata',
-  #   password: 'evedataio')
+  content_type :json
   
   response = Structure.find_by_sql("SELECT invTypes.typeID, invTypes.typeName
     FROM invTypes
