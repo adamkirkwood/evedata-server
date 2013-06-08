@@ -4,17 +4,15 @@ class Star < ActiveRecord::Base
   
   alias_attribute :id, :solarSystemID
   alias_attribute :name, :solarSystemName
-  alias_attribute :security_class, :securityClass
   
-  default_scope select("solarSystemID, solarSystemName, ROUND(security, 1) as security, securityClass")
+  default_scope select("solarSystemID, solarSystemName, ROUND(security, 1) as security")
   
-  scope :with_id, lambda { |value| where('id = (?)', value) if value }
+  scope :with_id, lambda { |value| where('solarSystemID = (?)', value) if value }
   scope :with_name, lambda { |value| where('solarSystemName LIKE ?', "%#{value}%") if value }
-  scope :with_security_class, lambda { |value| where('securityClass LIKE ?', "%#{value}%") if value }
   
   def as_json(options={})
-    options[:methods] = [:id, :name, :security, :security_class]
-    options[:only] = [:id, :name, :security, :security_class]
+    options[:methods] = [:id, :name, :security]
+    options[:only] = [:id, :name, :security]
     super
   end
   
@@ -22,9 +20,6 @@ class Star < ActiveRecord::Base
     stars = Star.with_id(params[:id])
                 .with_name(params[:name])
                 .with_security(params[:security])
-                .with_security_class(params[:security_class])
-                .order(:solarSystemID)
-                .limit(params[:limit])
     stars
   end
   
