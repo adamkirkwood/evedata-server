@@ -3,7 +3,12 @@ Bundler.setup :default
 require 'sinatra'
 require 'json'
 
-get '/' do
+get '/structures/:id' do
   content_type :json
-  return { :sushi => ["Maguro", "Hamachi", "Uni", "Saba", "Ebi", "Sake", "Tai"] }.to_json
+
+  if params[:id]
+    response = { :structure => { :id => params[:id], :name => 'Structure Name' } }.to_json
+    
+    return response
+  end  
 end
