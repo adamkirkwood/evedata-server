@@ -23,7 +23,7 @@ class ControlTower < ActiveRecord::Base
     control_towers = ControlTower.with_id(params[:id])
                                  .with_name(params[:name])
                                  .order(:typeID)
-                                 .limit(params[:limit])
+                                 .limit(params[:limit] || 25)
     control_towers
   end
 end

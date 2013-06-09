@@ -30,7 +30,7 @@ class Celestial < ActiveRecord::Base
                           .by_type(params[:type])
                           .limit(params[:limit])
                           .with_security(params[:security])
-                          .limit(params[:limit])
+                          .limit(params[:limit] || 25)
     celestials
   end
   

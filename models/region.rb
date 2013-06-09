@@ -19,6 +19,6 @@ class Region < ActiveRecord::Base
                     .by_id(params[:id])
                     .by_name(params[:name])
                     .where(:groupID => 3)
-                    .limit(params[:limit])
+                    .limit(params[:limit] || 25)
   end
 end

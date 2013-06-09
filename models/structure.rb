@@ -25,7 +25,7 @@ class Structure < ActiveRecord::Base
                           .order(:typeID)
                           .by_id(params[:id])
                           .by_name(params[:name])
-                          .limit(params[:limit])
+                          .limit(params[:limit] || 25)
     structures
   end
 end
