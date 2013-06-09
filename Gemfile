@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'sinatra'
 gem 'sinatra-activerecord'
 gem 'mysql'
-# gem 'activerecord-mysql-adapter'
+gem 'kaminari', :require => 'kaminari/sinatra'
 
 group :development do
   gem 'rerun'

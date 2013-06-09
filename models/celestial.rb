@@ -29,7 +29,8 @@ class Celestial < ActiveRecord::Base
                           .within_solar_system(params[:solar_system])
                           .by_type(params[:type])
                           .with_security(params[:security])
-                          .limit(params[:limit] || 25)
+                          .page(params[:page] || 1)
+                          .per(params[:limit] || 5)
     celestials
   end
   
