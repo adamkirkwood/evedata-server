@@ -10,6 +10,8 @@ class Star < ActiveRecord::Base
   scope :with_id, lambda { |value| where('solarSystemID = (?)', value) if value }
   scope :with_name, lambda { |value| where('solarSystemName LIKE ?', "%#{value}%") if value }
   
+  self.per_page = 25
+  
   def as_json(options={})
     options[:methods] = [:id, :name, :security]
     options[:only] = [:id, :name, :security]
@@ -20,7 +22,7 @@ class Star < ActiveRecord::Base
     stars = Star.with_id(params[:id])
                 .with_name(params[:name])
                 .with_security(params[:security])
-                .limit(params[:limit] || 25)
+                .paginate(:page => params[:page], :per_page => params[:limit])
     stars
   end
   
