@@ -20,6 +20,7 @@ class Star < ActiveRecord::Base
     stars = Star.with_id(params[:id])
                 .with_name(params[:name])
                 .with_security(params[:security])
+                .limit(params[:limit] || 25)
     stars
   end
   
