@@ -57,14 +57,17 @@ GEM
       ripl-rack (>= 0.2.0)
       sinatra (>= 1.2.1)
     tzinfo (0.3.37)
+    will_paginate (3.0.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   mysql
+  rack
   rb-fsevent (~> 0.9)
   rerun
   sinatra
   sinatra-activerecord
   tux
+  will_paginate

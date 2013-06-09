@@ -9,6 +9,8 @@ class Constellation < ActiveRecord::Base
   scope :by_name, lambda { |value| where("itemName LIKE ?", "%#{value}%") if value }
   scope :by_region_id, lambda { |value| where(:groupID => 4, :regionID => value) if value }
   
+  self.per_page = 25
+  
   def as_json(options={})
     options[:methods] = [:id, :name]
     options[:only] = [:id, :name]
@@ -19,6 +21,6 @@ class Constellation < ActiveRecord::Base
     regions = Constellation.by_id(params[:id])
                            .by_name(params[:name])
                            .by_region_id(params[:region_id])
-                           .limit(params[:limit] || 25)
+                           .paginate(:page => params[:page], :per_page => params[:limit])
   end
 end

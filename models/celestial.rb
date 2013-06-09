@@ -17,6 +17,8 @@ class Celestial < ActiveRecord::Base
   scope :by_id, lambda { |value| where("mapDenormalize.itemID = ?", value) if value }
   scope :within_solar_system, lambda { |value| { :conditions => ["solarSystemID IN (?)", SolarSystem.find_id_by_name(value)] } if value }
   
+  self.per_page = 25
+  
   def as_json(options={})
     options[:methods] = [:id, :name, :type_id, :group_id, :solar_system_id, :constellation_id, :region_id, :security]
     options[:only] = [:id, :name, :type_id, :group_id, :solar_system_id, :constellation_id, :region_id, :security]
@@ -29,7 +31,7 @@ class Celestial < ActiveRecord::Base
                           .within_solar_system(params[:solar_system])
                           .by_type(params[:type])
                           .with_security(params[:security])
-                          .limit(params[:limit] || 25)
+                          .paginate(:page => params[:page], :per_page => params[:limit])
     celestials
   end
   

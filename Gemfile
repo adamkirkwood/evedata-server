@@ -1,9 +1,10 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
+gem 'rack'
 gem 'sinatra-activerecord'
 gem 'mysql'
-# gem 'activerecord-mysql-adapter'
+gem 'will_paginate'
 
 group :development do
   gem 'rerun'

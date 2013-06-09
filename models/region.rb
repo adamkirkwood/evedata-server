@@ -8,6 +8,8 @@ class Region < ActiveRecord::Base
   scope :by_id, lambda { |value| where("itemID = ?", value) if value }
   scope :by_name, lambda { |value| where("itemName LIKE ?", "%#{value}%") if value }
   
+  self.per_page = 25
+  
   def as_json(options={})
     options[:methods] = [:id, :name]
     options[:only] = [:id, :name]
@@ -19,6 +21,6 @@ class Region < ActiveRecord::Base
                     .by_id(params[:id])
                     .by_name(params[:name])
                     .where(:groupID => 3)
-                    .limit(params[:limit] || 25)
+                    .paginate(:page => params[:page], :per_page => params[:limit])
   end
 end
