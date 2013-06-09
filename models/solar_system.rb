@@ -15,6 +15,7 @@ class SolarSystem < ActiveRecord::Base
   end
   
   def self.find_id_by_name(value)
-    select("solarSystemID").where("solarSystemName = ?", value).first.solarSystemID
+    return scoped if !value.present?
+    select("solarSystemID").where("solarSystemName LIKE ?", "%#{value}%").pluck(:solarSystemID)
   end
 end
