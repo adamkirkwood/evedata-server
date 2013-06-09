@@ -19,8 +19,8 @@ class Star < ActiveRecord::Base
   def self.search(params)
     stars = Star.with_id(params[:id])
                 .with_name(params[:name])
-                .with_security(params[:security])
                 .limit(params[:limit] || 25)
+                .with_security(params[:security])
     stars
   end
   
