@@ -10,6 +10,8 @@ class Structure < ActiveRecord::Base
   scope :by_id, lambda { |value| where("typeID = ?", value) if value }
   scope :by_name, lambda { |value| where("invTypes.typeName LIKE ?", "%#{value}%") if value }
   
+  self.per_page = 25
+  
   def as_json(options={})
     options[:methods] = [:id, :name]
     options[:only] = [:id, :name]
@@ -25,7 +27,7 @@ class Structure < ActiveRecord::Base
                           .order(:typeID)
                           .by_id(params[:id])
                           .by_name(params[:name])
-                          .limit(params[:limit] || 25)
+                          .paginate(:page => params[:page], :per_page => params[:limit])
     structures
   end
 end
