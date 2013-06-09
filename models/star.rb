@@ -19,12 +19,14 @@ class Star < ActiveRecord::Base
   def self.search(params)
     stars = Star.with_id(params[:id])
                 .with_name(params[:name])
-                .limit(params[:limit] || 25)
                 .with_security(params[:security])
+                .limit(params[:limit] || 25)
     stars
   end
   
   def self.with_security(value)
+    return scoped if !value.present?
+    
     if value =~ /,/
       min, max = value.split(",")
       where("ROUND(security, 1) >= ROUND(?, 1) AND ROUND(security, 1) <= ROUND(?, 1)", min, max) if value
