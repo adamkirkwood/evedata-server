@@ -1,9 +1,10 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
+gem 'rack'
 gem 'sinatra-activerecord'
 gem 'mysql'
-gem 'kaminari', :require => 'kaminari/sinatra'
+gem 'will_paginate'
 
 group :development do
   gem 'rerun'

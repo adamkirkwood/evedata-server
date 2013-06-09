@@ -5,11 +5,10 @@ require 'sinatra'
 require 'json'
 require 'sinatra/activerecord'
 require 'mysql'
-require 'kaminari/sinatra'
-helpers Kaminari::Helpers::SinatraHelpers
+require 'will_paginate'
+require 'will_paginate/active_record'
 
 Dir["./models/*.rb"].each {|file| require file}
 Dir["./routes/*.rb"].each {|file| require file}
 
 ActiveRecord::Base.include_root_in_json = false
-
