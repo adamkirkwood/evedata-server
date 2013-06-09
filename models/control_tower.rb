@@ -13,6 +13,8 @@ class ControlTower < ActiveRecord::Base
   scope :with_id, lambda { |value| where('typeID = (?)', value) if value }
   scope :with_name, lambda { |value| where('typeName LIKE ?', "%#{value}%") if value }
   
+  self.per_page = 25
+  
   def as_json(options={})
     options[:methods] = [:id, :name]
     options[:only] = [:id, :name]
@@ -23,7 +25,7 @@ class ControlTower < ActiveRecord::Base
     control_towers = ControlTower.with_id(params[:id])
                                  .with_name(params[:name])
                                  .order(:typeID)
-                                 .limit(params[:limit] || 25)
+                                 .paginate(:page => params[:page], :per_page => params[:limit])
     control_towers
   end
 end
