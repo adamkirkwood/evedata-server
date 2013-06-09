@@ -15,7 +15,7 @@ class Celestial < ActiveRecord::Base
   
   scope :by_type, lambda { |value| where("mapDenormalize.groupID = ?", value) if value }
   scope :by_id, lambda { |value| where("mapDenormalize.itemID = ?", value) if value }
-  scope :within_solar_system, lambda { |value| where(:solarSystemID => SolarSystem.find_id_by_name(value)) if value }
+  scope :within_solar_system, lambda { |value| { :conditions => ["solarSystemID IN (?)", SolarSystem.find_id_by_name(value)] } if value }
   
   def as_json(options={})
     options[:methods] = [:id, :name, :type_id, :group_id, :solar_system_id, :constellation_id, :region_id, :security]
@@ -28,7 +28,6 @@ class Celestial < ActiveRecord::Base
                           .by_id(params[:id])
                           .within_solar_system(params[:solar_system])
                           .by_type(params[:type])
-                          .limit(params[:limit])
                           .with_security(params[:security])
                           .limit(params[:limit] || 25)
     celestials
