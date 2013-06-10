@@ -9,10 +9,10 @@ require 'will_paginate'
 require 'will_paginate/active_record'
 require 'grape'
 
-Dir["./api/*.rb"].each {|file| require file}
-Dir["./models/*.rb"].each {|file| require file}
-# Dir["./routes/*.rb"].each {|file| require file}
-# 
+['api', 'models'].each do |dir|
+  Dir["./#{dir}/*.rb"].each { |file| require file }
+end
+
 # before do
 #   headers['Access-Control-Allow-Origin'] = '*'
 #   headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
