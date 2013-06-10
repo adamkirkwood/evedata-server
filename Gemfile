@@ -5,6 +5,7 @@ gem 'rack'
 gem 'sinatra-activerecord'
 gem 'mysql'
 gem 'will_paginate'
+gem 'grape'
 
 group :development do
   gem 'rerun'
