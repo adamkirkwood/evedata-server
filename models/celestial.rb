@@ -19,7 +19,7 @@ class Celestial < ActiveRecord::Base
   
   scope :by_type, lambda { |value| where("mapDenormalize.groupID = ?", value) if value }
   scope :by_id, lambda { |value| where("mapDenormalize.itemID = ?", value) if value }
-  scope :within_solar_system, lambda { |value| { :conditions => ["solarSystemID IN (?)", SolarSystem.find_id_by_name(value)] } if value }
+  scope :within_solar_system, lambda { |value| { :conditions => ["mapSolarSystems.solarSystemID IN (?)", SolarSystem.find_id_by_name(value)] } if value }
   
   self.per_page = 25
   
