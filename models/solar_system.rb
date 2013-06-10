@@ -26,11 +26,11 @@ class SolarSystem < ActiveRecord::Base
   end
   
   def self.search(params)
-    stars = Star.with_id(params[:id])
-                .with_name(params[:name])
-                .with_security(params[:security])
-                .paginate(:page => params[:page], :per_page => params[:limit])
-    stars
+    solar_systems = SolarSystem.with_id(params[:id])
+                               .with_name(params[:name])
+                               .with_security(params[:security])
+                               .paginate(:page => params[:page], :per_page => params[:limit])
+    solar_systems
   end
   
   def self.with_security(value)
