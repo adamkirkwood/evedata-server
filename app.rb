@@ -29,6 +29,7 @@ module EveData
     mount ::EveData::Celestials
     mount ::EveData::ControlTowers
     mount ::EveData::Regions
+    mount ::EveData::SolarSystems
     mount ::EveData::Structures
     
     get '/hello' do    

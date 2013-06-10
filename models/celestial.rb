@@ -17,9 +17,9 @@ class Celestial < ActiveRecord::Base
   
   default_scope select("mapDenormalize.itemName, mapDenormalize.itemID, mapDenormalize.groupID, mapDenormalize.solarSystemID, mapDenormalize.constellationID, mapDenormalize.regionID, ROUND(mapDenormalize.security, 1) as security, mapSolarSystems.solarSystemName, mapConstellations.constellationName, mapRegions.regionName, invGroups.groupName")
   
-  scope :by_type, lambda { |value| where("mapDenormalize.groupID = ?", value) if value }
+  scope :by_type, lambda { |value| where("mapDenormalize.groupID IN (?)", value.split(',').map { |s| s.to_i }) if value }
   scope :by_id, lambda { |value| where("mapDenormalize.itemID = ?", value) if value }
-  scope :within_solar_system, lambda { |value| { :conditions => ["solarSystemID IN (?)", SolarSystem.find_id_by_name(value)] } if value }
+  scope :within_solar_system, lambda { |value| { :conditions => ["mapSolarSystems.solarSystemID IN (?)", SolarSystem.find_id_by_name(value)] } if value }
   
   self.per_page = 25
   
