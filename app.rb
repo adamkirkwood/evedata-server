@@ -27,6 +27,8 @@ module EveData
     default_format :json
     
     mount ::EveData::Celestials
+    mount ::EveData::ControlTowers
+    mount ::EveData::Regions
     mount ::EveData::Structures
     
     get '/hello' do    
