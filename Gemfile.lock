@@ -40,6 +40,8 @@ GEM
     rack (1.5.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-cors (0.2.8)
+      rack
     rack-mount (0.8.3)
       rack (>= 1.0.0)
     rack-protection (1.5.0)
@@ -87,6 +89,7 @@ DEPENDENCIES
   grape
   mysql
   rack
+  rack-cors
   rb-fsevent (~> 0.9)
   rerun
   sinatra

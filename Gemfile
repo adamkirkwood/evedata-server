@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 
 gem 'sinatra'
 gem 'rack'
+gem 'rack-cors'
 gem 'sinatra-activerecord'
 gem 'mysql'
 gem 'will_paginate'
