@@ -1,6 +1,6 @@
 require 'uri'
 
-db = URI.parse(ENV['DATABASE_URL'] || 'mysql://evedump:evedump1234@db.descention.net:3306/evedump')
+db = URI.parse(ENV['DATABASE_URL'] || 'mysql://root@localhost:3306/evedump')
 
 ActiveRecord::Base.establish_connection(
   :adapter  => db.scheme == 'mysql' ? 'mysql' : db.scheme,
