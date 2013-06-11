@@ -22,9 +22,5 @@ module EveData
     mount ::EveData::Regions
     mount ::EveData::SolarSystems
     mount ::EveData::Structures
-    
-    get '/hello' do    
-      { "hello" => "world" }
-    end
   end
 end
