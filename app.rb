@@ -13,11 +13,6 @@ require 'grape'
   Dir["./#{dir}/*.rb"].each { |file| require file }
 end
 
-# before do
-#   headers['Access-Control-Allow-Origin'] = '*'
-#   headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
-#   headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version, X-CSRF-Token'
-# end
 
 ActiveRecord::Base.include_root_in_json = false
 
