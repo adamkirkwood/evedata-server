@@ -1,6 +1,5 @@
 require 'bundler'
 Bundler.setup :default
-require './config/environments'
 require 'sinatra'
 require 'json'
 require 'sinatra/activerecord'
@@ -9,12 +8,9 @@ require 'will_paginate'
 require 'will_paginate/active_record'
 require 'grape'
 
-['api', 'models'].each do |dir|
+['config', 'api', 'models'].each do |dir|
   Dir["./#{dir}/*.rb"].each { |file| require file }
 end
-
-
-ActiveRecord::Base.include_root_in_json = false
 
 module EveData
   class API < Grape::API
