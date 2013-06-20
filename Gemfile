@@ -18,3 +18,10 @@ group :development do
   gem 'rb-fsevent', '~> 0.9'
   gem 'tux'
 end
+
+group :test do
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'rspec'
+  gem 'simplecov', :require => false
+end
