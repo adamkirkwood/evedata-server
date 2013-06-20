@@ -8,10 +8,12 @@ gem 'will_paginate'
 gem 'grape'
 
 # datastores
-gem 'redis'
 gem 'mysql'
+gem 'dalli'
+gem 'memcachier'
 
 group :development do
+  gem 'heroku'
   gem 'rerun'
   gem 'rb-fsevent', '~> 0.9'
   gem 'tux'

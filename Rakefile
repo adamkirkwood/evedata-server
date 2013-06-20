@@ -5,3 +5,7 @@ end
 task :redis do
   sh "redis-server /usr/local/etc/redis.conf"
 end
+
+task :memcached do
+  sh "memcached -v"
+end

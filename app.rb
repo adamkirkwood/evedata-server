@@ -7,12 +7,11 @@ require 'mysql'
 require 'will_paginate'
 require 'will_paginate/active_record'
 require 'grape'
+require 'dalli'
 
 ['config', 'api', 'models'].each do |dir|
   Dir["./#{dir}/*.rb"].each { |file| require file }
 end
-
-$redis = Redis.new
 
 module EveData
   class API < Grape::API
