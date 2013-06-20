@@ -11,7 +11,7 @@ module EveData
         :serializer => :json
       }
       
-      @cache = Dalli::Client.new([], cache_options)
+      @cache = Dalli::Client.new(nil, cache_options)
     end
     
     def fetch(url, ttl=nil, options=nil, &block)
