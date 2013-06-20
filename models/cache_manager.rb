@@ -21,13 +21,16 @@ module EveData
     end
     
     def create_key(value)
-      path = URI.parse(value).path[1..-1]
+      path = URI.parse(value).path[1..-1].gsub('/',":")
       
       params = URI.parse(value).query
-      params = CGI.parse(params)
-      params = params.sort.map { |k,v| "#{k}:#{v.join(':')}" }.join(':')
+
+      if !params.nil?
+        params = CGI.parse(params)
+        params = params.sort.map { |k,v| "#{k}:#{v.join(':')}" }.join(':')
+      end
       
-      [path, params].join(':')
+      params ? [path, params].join(':') : path
     end
     
   end
