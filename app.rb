@@ -13,6 +13,14 @@ require 'dalli'
   Dir["./#{dir}/*.rb"].each { |file| require file }
 end
 
+cache_options = {
+  :namespace => 'evedata',
+  :expires_in => 1.day,
+  :compress => true,
+  :serializer => :json
+}
+set :cache, Dalli::Client.new({}, cache_options)
+
 module EveData
   class API < Grape::API
     format :json

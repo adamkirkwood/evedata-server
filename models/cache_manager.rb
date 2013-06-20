@@ -3,6 +3,16 @@ require 'uri'
 module EveData
   class CacheManager
     
+    def initialize
+      @cache = Dalli::Client.new
+    end
+    
+    def fetch(url, ttl=nil, options=nil, &block)
+      key = create_key(url)
+      
+      @cache.fetch(key, ttl, options)
+    end
+    
     def create_key(value)
       path = URI.parse(value).path[1..-1]
       
