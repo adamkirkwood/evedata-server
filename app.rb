@@ -12,6 +12,8 @@ require 'grape'
   Dir["./#{dir}/*.rb"].each { |file| require file }
 end
 
+$redis = Redis.new
+
 module EveData
   class API < Grape::API
     format :json

@@ -53,6 +53,7 @@ GEM
       ffi (>= 0.5.0)
     rb-kqueue (0.2.0)
       ffi (>= 0.5.0)
+    redis (3.0.4)
     rerun (0.8.1)
       listen (>= 1.0.3)
     ripl (0.7.0)
@@ -91,6 +92,7 @@ DEPENDENCIES
   rack
   rack-cors
   rb-fsevent (~> 0.9)
+  redis
   rerun
   sinatra
   sinatra-activerecord

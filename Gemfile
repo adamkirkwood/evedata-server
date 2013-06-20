@@ -4,9 +4,12 @@ gem 'sinatra'
 gem 'rack'
 gem 'rack-cors'
 gem 'sinatra-activerecord'
-gem 'mysql'
 gem 'will_paginate'
 gem 'grape'
+
+# datastores
+gem 'redis'
+gem 'mysql'
 
 group :development do
   gem 'rerun'
