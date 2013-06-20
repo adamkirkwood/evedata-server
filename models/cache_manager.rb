@@ -4,7 +4,14 @@ module EveData
   class CacheManager
     
     def initialize
-      @cache = Dalli::Client.new
+      cache_options = {
+        :namespace => 'evedata',
+        :expires_in => 1.day,
+        :compress => true,
+        :serializer => :json
+      }
+      
+      @cache = Dalli::Client.new([], cache_options)
     end
     
     def fetch(url, ttl=nil, options=nil, &block)
