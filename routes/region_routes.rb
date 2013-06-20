@@ -7,7 +7,7 @@ get '/regions' do
   end
 end
 
-get '/:id' do
+get '/regions/:id' do
   content_type :json
   
   response ||= EveData::CacheManager.new.fetch(request.env['REQUEST_URI']) do
@@ -16,7 +16,7 @@ get '/:id' do
   end
 end
 
-get '/:region_id/constellations' do
+get '/regions/:region_id/constellations' do
   content_type :json
   
   response ||= EveData::CacheManager.new.fetch(request.env['REQUEST_URI']) do
@@ -25,7 +25,7 @@ get '/:region_id/constellations' do
   end
 end
 
-get '/:region_id/constellations/:id' do
+get '/regions/:region_id/constellations/:id' do
   content_type :json
   
   response ||= EveData::CacheManager.new.fetch(request.env['REQUEST_URI']) do
