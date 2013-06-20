@@ -12,4 +12,6 @@ use Rack::Cors do
   end
 end
 
-run EveData::API
+map '/' do
+  run Sinatra::Application
+end

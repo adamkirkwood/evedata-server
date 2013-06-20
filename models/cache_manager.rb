@@ -10,7 +10,14 @@ module EveData
     def fetch(url, ttl=nil, options=nil, &block)
       key = create_key(url)
       
-      @cache.fetch(key, ttl, options)
+      data = @cache.get(key, options)
+      
+      if data.nil? && block_given?
+        data = yield
+        @cache.set(key, data, ttl)
+      end
+      
+      data
     end
     
     def create_key(value)
