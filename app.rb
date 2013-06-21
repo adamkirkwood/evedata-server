@@ -16,8 +16,3 @@ configure :production do
   require 'newrelic_rpm'
   require 'memcachier'
 end
-
-module EveData
-  class API
-  end
-end
