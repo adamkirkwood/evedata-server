@@ -5,7 +5,7 @@ gem 'rack'
 gem 'rack-cors'
 gem 'sinatra-activerecord'
 gem 'will_paginate'
-gem 'grape'
+gem 'newrelic_rpm'
 
 # datastores
 gem 'mysql'
