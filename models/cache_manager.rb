@@ -8,8 +8,7 @@ module EveData
       cache_options = {
         :namespace => 'evedata',
         :expires_in => 1.day,
-        :compress => true,
-        :serializer => :json
+        :compress => true
       }
       
       if ENV['RACK_ENV'] == "production"
