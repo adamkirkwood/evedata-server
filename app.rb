@@ -7,10 +7,14 @@ require 'mysql'
 require 'will_paginate'
 require 'will_paginate/active_record'
 require 'dalli'
-require 'memcachier'
 
 ['config', 'models', 'routes'].each do |dir|
   Dir["./#{dir}/*.rb"].each { |file| require file }
+end
+
+configure :production do
+  require 'newrelic_rpm'
+  require 'memcachier'
 end
 
 module EveData

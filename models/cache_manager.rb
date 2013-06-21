@@ -4,6 +4,7 @@ module EveData
   class CacheManager
     
     def initialize
+      server = "localhost:11211"
       cache_options = {
         :namespace => 'evedata',
         :expires_in => 1.day,
@@ -11,7 +12,15 @@ module EveData
         :serializer => :json
       }
       
-      @cache = Dalli::Client.new(nil, cache_options)
+      if ENV['RACK_ENV'] == "production"
+        server = ENV["MEMCACHIER_SERVERS"]
+        {
+          :username => ENV["MEMCACHIER_USERNAME"],
+          :password => ENV["MEMCACHIER_PASSWORD"]
+        }.merge(cache_options)
+      end
+      
+      @cache = Dalli::Client.new(server, cache_options)
     end
     
     def fetch(url, ttl=nil, options=nil, &block)
