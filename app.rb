@@ -6,7 +6,6 @@ require 'sinatra/activerecord'
 require 'mysql'
 require 'will_paginate'
 require 'will_paginate/active_record'
-require 'grape'
 require 'dalli'
 require 'memcachier'
 
