@@ -9,3 +9,9 @@ end
 task :memcached do
   sh "memcached -v"
 end
+
+task :deploy, [:branch] do |t, args|
+  puts "Deploying #{args.branch} to Heroku"
+  sh "git push heroku #{args.branch}:master"
+  sh "git push origin #{args.branch}"
+end
