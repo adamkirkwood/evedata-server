@@ -12,6 +12,8 @@ gem 'mysql'
 gem 'dalli'
 gem 'memcachier'
 
+gem 'unicorn'
+
 group :development do
   gem 'heroku'
   gem 'rerun'
