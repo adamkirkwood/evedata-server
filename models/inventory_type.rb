@@ -18,7 +18,7 @@ class InventoryType < ActiveRecord::Base
   scope :by_name, lambda { |value| where("typeName = ?", "#{value}") if value }
   
   def as_json(options={})
-    options[:methods] = [:id, :name, :images, :group, :category]
+    options[:methods] = [:id, :name, :images, :group, :category, :base_price]
     options[:only] = [:id, :name, :base_price, :volume, :mass, :capacity, :description, :group, :category]
     super
   end
