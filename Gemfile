@@ -1,3 +1,4 @@
+ruby '1.9.3'
 source 'http://rubygems.org'
 
 gem 'sinatra'
@@ -11,6 +12,8 @@ gem 'newrelic_rpm'
 gem 'mysql'
 gem 'dalli'
 gem 'memcachier'
+
+gem 'unicorn'
 
 group :development do
   gem 'heroku'
