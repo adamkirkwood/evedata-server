@@ -20,9 +20,9 @@ class InventoryType < ActiveRecord::Base
   def self.search(params)
     puts params
     items = InventoryType.order(:typeID)
-                    .by_id(params[:id])
-                    .by_name(params[:name])
-                    .paginate(:page => params[:page], :per_page => params[:limit])
+                         .by_id(params[:id])
+                         .by_name(params[:name])
+                         .paginate(:page => params[:page], :per_page => params[:limit])
     puts items
     items
   end
