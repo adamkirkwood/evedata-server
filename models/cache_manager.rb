@@ -19,17 +19,25 @@ module EveData
         }.merge(cache_options)
       end
       
-      @cache = Dalli::Client.new(server, cache_options)
+      @cache ||= Dalli::Client.new(server, cache_options)
     end
     
     def fetch(url, ttl=nil, options=nil, &block)
-      key = create_key(url)
       
-      data = @cache.get(key, options)
+      begin
+        key = create_key(url)
+        data ||= @cache.get(key, options)
+      rescue Dalli::RingError
+        data = nil
+      end      
       
       if data.nil? && block_given?
         data = yield
-        @cache.set(key, data, ttl)
+        begin
+          @cache.set(key, data, ttl)
+        rescue Dalli::RingError
+          nil
+        end
       end
       
       data
