@@ -10,7 +10,7 @@ class SolarSystem < ActiveRecord::Base
   default_scope select("solarSystemID, solarSystemName, ROUND(security, 1) as security")
   
   scope :with_id, lambda { |value| where('solarSystemID = (?)', value) if value }
-  scope :with_name, lambda { |value| where('lower(solarSystemName) LIKE ?', "%#{value.downcase}%") if value }
+  scope :with_name, lambda { |value| where('lower(solarSystemName) = ?', "#{value.downcase}") if value }
   
   self.per_page = 25
   
@@ -22,7 +22,7 @@ class SolarSystem < ActiveRecord::Base
   
   def self.find_id_by_name(value)
     return scoped if !value.present?
-    select("solarSystemID").where("lower(solarSystemName) = ?", "%#{value.downcase}%").pluck(:solarSystemID)
+    select("solarSystemID").where("lower(solarSystemName) = ?", "#{value.downcase}").pluck(:solarSystemID)
   end
   
   def self.search(params)
