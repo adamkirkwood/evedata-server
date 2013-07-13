@@ -37,7 +37,7 @@ class Celestial < ActiveRecord::Base
   self.per_page = 25
   
   def as_json(options={})
-    options[:methods] = [:id, :name, :type_id, :group, :security, :solar_system, :constellation, :region]
+    options[:methods] = [:id, :name, :type_id, :group, :solar_system, :constellation, :region]
     options[:only] = [:id, :name, :type_id, :security]
     super
   end
