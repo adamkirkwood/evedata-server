@@ -20,7 +20,8 @@ class Celestial < ActiveRecord::Base
   scope :by_type, lambda { |value| where("mapDenormalize.groupID IN (?)", value.split(',').map { |s| s.to_i }) if value }
   scope :by_id, lambda { |value| where("mapDenormalize.itemID = ?", value) if value }
   scope :by_name, lambda { |value| where("mapDenormalize.itemName = ?", value) if value }
-  scope :within_solar_system, lambda { |value| { :conditions => ["mapSolarSystems.solarSystemID IN (?)", SolarSystem.find_id_by_name(value)] } if value }
+  scope :within_solar_system, lambda { |value| { :conditions => ["mapSolarSystems.solarSystemID IN (?)", value.split(',').map { |s| s.to_i }] } if value }
+  scope :within_solar_system_name, lambda { |value| { :conditions => ["mapSolarSystems.solarSystemID IN (?)", SolarSystem.find_id_by_name(value)] } if value }
   
   self.per_page = 25
   
@@ -38,7 +39,8 @@ class Celestial < ActiveRecord::Base
                           .joins("LEFT JOIN mapRegions ON mapDenormalize.regionID = mapRegions.regionID")
                           .by_id(params[:id])
                           .by_name(params[:name])
-                          .within_solar_system(params[:solar_system])
+                          .within_solar_system_id(params[:solar_system])
+                          .within_solar_system_name(params[:solar_system_name])
                           .by_type(params[:type])
                           .with_security(params[:security])
                           .paginate(:page => params[:page], :per_page => params[:limit])
