@@ -22,7 +22,7 @@ class SolarSystem < ActiveRecord::Base
   
   def self.find_id_by_name(value)
     return scoped if !value.present?
-    select("solarSystemID").where("lower(solarSystemName) = ?", "#{value.downcase}").pluck(:solarSystemID)
+    select("solarSystemID").where("lower(solarSystemName) = ?", "%#{value.downcase}%").pluck(:solarSystemID)
   end
   
   def self.search(params)
