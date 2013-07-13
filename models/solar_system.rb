@@ -15,7 +15,7 @@ class SolarSystem < ActiveRecord::Base
   self.per_page = 25
   
   def as_json(options={})
-    options[:methods] = [:id, :name, :security]
+    options[:methods] = [:id, :name]
     options[:only] = [:id, :name, :security]
     super
   end
