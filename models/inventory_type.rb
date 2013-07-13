@@ -17,8 +17,12 @@ class InventoryType < ActiveRecord::Base
   
   scope :by_id, lambda { |value| where("typeID = ?", value) if value }
   scope :by_name, lambda { |value| where("typeName = ?", "#{value}") if value }
-  scope :by_group, lambda { |value| where("groupName = ?", "#{value}") if value }
-  scope :by_group_name, lambda { |value| where("groupID = ?", "#{value}") if value }
+  scope :by_group_id, lambda { |value| where("invGroups.groupID = ?", "#{value}") if value }
+  scope :by_group_name, lambda { |value| where("invGroups.groupName = ?", "#{value}") if value }
+  scope :by_category_id, lambda { |value| where("invCategories.categoryID = ?", "#{value}") if value }
+  scope :by_category_name, lambda { |value| where("invCategories.categoryName = ?", "#{value}") if value }
+  
+  self.per_page = 25
   
   def as_json(options={})
     options[:methods] = [:id, :name, :images, :group, :category, :base_price]
@@ -30,6 +34,10 @@ class InventoryType < ActiveRecord::Base
     items = InventoryType.order(:typeID)
                          .by_id(params[:id])
                          .by_name(params[:name])
+                         .by_group_id(params[:group_id])
+                         .by_group_name(params[:group_name])
+                         .by_category_id(params[:category_id])
+                         .by_category_name(params[:category_name])
                          .joins("LEFT JOIN invGroups ON invTypes.groupID = invGroups.groupID")
                          .joins("LEFT JOIN invCategories ON invGroups.categoryID = invCategories.categoryID")
                          .paginate(:page => params[:page], :per_page => params[:limit])
