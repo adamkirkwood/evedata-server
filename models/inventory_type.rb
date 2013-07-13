@@ -16,11 +16,11 @@ class InventoryType < ActiveRecord::Base
   default_scope { select("invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.basePrice, invTypes.volume, invTypes.mass, invTypes.capacity, invTypes.description, invGroups.groupID, invGroups.groupName, invCategories.categoryName, invCategories.categoryID") }
   
   scope :by_id, lambda { |value| where("typeID = ?", value) if value }
-  scope :by_name, lambda { |value| where("typeName = ?", "#{value}") if value }
+  scope :by_name, lambda { |value| where("lower(typeName) = ?", "#{value.downcase}") if value }
   scope :by_group_id, lambda { |value| where("invGroups.groupID = ?", "#{value}") if value }
-  scope :by_group_name, lambda { |value| where("invGroups.groupName = ?", "#{value}") if value }
+  scope :by_group_name, lambda { |value| where("lower(invGroups.groupName) = ?", "#{value.downcase}") if value }
   scope :by_category_id, lambda { |value| where("invCategories.categoryID = ?", "#{value}") if value }
-  scope :by_category_name, lambda { |value| where("invCategories.categoryName = ?", "#{value}") if value }
+  scope :by_category_name, lambda { |value| where("lower(invCategories.categoryName) = ?", "#{value.downcase}") if value }
   
   self.per_page = 25
   

@@ -6,7 +6,7 @@ class Region < ActiveRecord::Base
   alias_attribute :name, :itemName
   
   scope :by_id, lambda { |value| where("itemID = ?", value) if value }
-  scope :by_name, lambda { |value| where("itemName LIKE ?", "%#{value}%") if value }
+  scope :by_name, lambda { |value| where("lower(itemName) = ?", "#{value}") if value }
   
   self.per_page = 25
   

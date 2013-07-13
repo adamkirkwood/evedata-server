@@ -11,7 +11,7 @@ class ControlTower < ActiveRecord::Base
   default_scope where("typeName NOT LIKE 'QA%'")
   
   scope :with_id, lambda { |value| where('typeID = (?)', value) if value }
-  scope :with_name, lambda { |value| where('typeName LIKE ?', "%#{value}%") if value }
+  scope :with_name, lambda { |value| where('lower(typeName) = ?', "#{value.downcase}") if value }
   
   self.per_page = 25
   
