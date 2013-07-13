@@ -8,7 +8,7 @@ class Structure < ActiveRecord::Base
   default_scope select("invTypes.typeID, invTypes.typeName")
 
   scope :by_id, lambda { |value| where("typeID = ?", value) if value }
-  scope :by_name, lambda { |value| where("invTypes.typeName LIKE ?", "%#{value}%") if value }
+  scope :by_name, lambda { |value| where("lower(invTypes.typeName) = ?", "#{value}") if value }
   
   self.per_page = 25
   
