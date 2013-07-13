@@ -14,6 +14,7 @@ gem 'dalli'
 gem 'memcachier'
 
 gem 'unicorn'
+gem 'snappy'
 
 group :development do
   gem 'heroku'
