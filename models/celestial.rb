@@ -15,9 +15,19 @@ class Celestial < ActiveRecord::Base
   alias_attribute :region_id, :regionID
   alias_attribute :region_name, :regionName
   
-  default_scope select("mapDenormalize.itemName, mapDenormalize.itemID, mapDenormalize.groupID, mapDenormalize.solarSystemID, mapDenormalize.constellationID, mapDenormalize.regionID, ROUND(mapDenormalize.security, 1) as security, mapSolarSystems.solarSystemName, mapConstellations.constellationName, mapRegions.regionName, invGroups.groupName")
+  default_scope select("mapDenormalize.itemName, 
+                        mapDenormalize.itemID, 
+                        mapDenormalize.groupID, 
+                        mapDenormalize.solarSystemID, 
+                        mapDenormalize.constellationID, 
+                        mapDenormalize.regionID, 
+                        ROUND(mapDenormalize.security, 1) as security, 
+                        mapSolarSystems.solarSystemName, 
+                        mapConstellations.constellationName, 
+                        mapRegions.regionName, 
+                        invGroups.groupName as groupName")
   
-  scope :by_group_name, lambda { |value| where("lower(mapDenormalize.groupName) = ?", value.downcase) if value }
+  scope :by_group_name, lambda { |value| where("lower(invGroups.groupName) = ?", value.downcase) if value }
   scope :by_group_id, lambda { |value| where("mapDenormalize.groupID IN (?)", value.split(',').map { |s| s.to_i }) if value }
   scope :by_id, lambda { |value| where("mapDenormalize.itemID = ?", value) if value }
   scope :by_name, lambda { |value| where("lower(mapDenormalize.itemName) = ?", value.downcase) if value }
@@ -36,7 +46,6 @@ class Celestial < ActiveRecord::Base
     celestials = Celestial.joins("INNER JOIN invGroups ON mapDenormalize.groupID = invGroups.groupID")
                           .joins("LEFT JOIN mapSolarSystems ON mapDenormalize.solarSystemID = mapSolarSystems.solarSystemID")
                           .joins("LEFT JOIN mapConstellations ON mapDenormalize.constellationID = mapConstellations.constellationID")
-                          .joins("LEFT JOIN mapRegions ON mapDenormalize.regionID = mapRegions.regionID")
                           .joins("LEFT JOIN mapRegions ON mapDenormalize.regionID = mapRegions.regionID")
                           .by_id(params[:id])
                           .by_name(params[:name])
