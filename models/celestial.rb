@@ -21,7 +21,7 @@ class Celestial < ActiveRecord::Base
   scope :by_id, lambda { |value| where("mapDenormalize.itemID = ?", value) if value }
   scope :by_name, lambda { |value| where("lower(mapDenormalize.itemName) = ?", value.downcase) if value }
   scope :within_solar_system_id, lambda { |value| { :conditions => ["mapSolarSystems.solarSystemID IN (?)", value.split(',').map { |s| s.to_i }] } if value }
-  scope :within_solar_system_name, lambda { |value| { :conditions => ["mapSolarSystems.solarSystemName IN (?)", SolarSystem.find_id_by_name(value.downcase)] } if value }
+  scope :within_solar_system_name, lambda { |value| { :conditions => ["mapSolarSystems.solarSystemID IN (?)", SolarSystem.find_id_by_name(value.downcase)] } if value }
   
   self.per_page = 25
   
