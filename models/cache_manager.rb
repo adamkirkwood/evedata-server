@@ -26,7 +26,7 @@ module EveData
       
       begin
         key = create_key(url)
-        data ||= @cache.get(key, options)
+        data ||= EveData::Compressor.inflate(@cache.get(key, options))
       rescue Dalli::RingError
         data = nil
       end      
@@ -34,7 +34,7 @@ module EveData
       if data.nil? && block_given?
         data = yield
         begin
-          @cache.set(key, data, ttl)
+          @cache.set(key, EveData::Compressor.deflate(data), ttl)
         rescue Dalli::RingError
           nil
         end
