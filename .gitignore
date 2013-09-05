@@ -2,3 +2,5 @@ coverage
 tmp
 .rvmrc
 .rspec
+vendor/ruby
+.env
