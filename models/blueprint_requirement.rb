@@ -16,8 +16,8 @@ class BlueprintRequirement < ActiveRecord::Base
   self.per_page = 25
   
   def as_json(options={})
-    options[:methods] = [:damage_per_job, :material, :activity, :images]
-    options[:only] = [:damage_per_job]
+    options[:methods] = [:material, :activity, :images]
+    options[:only] = [:quantity, :recycle, :damage_per_job]
     super
   end
   
