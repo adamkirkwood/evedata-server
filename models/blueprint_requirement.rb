@@ -12,6 +12,7 @@ class BlueprintRequirement < ActiveRecord::Base
   default_scope { select("ramTypeRequirements.*, ramActivities.activityName, invTypes.typeName") }
   
   scope :by_id, lambda { |value| where("ramTypeRequirements.typeID = ?", value) if value }
+  scope :by_activity_id, lambda { |value| where("ramTypeRequirements.activityID = ?", value) if value }
   
   self.per_page = 25
   
@@ -24,6 +25,7 @@ class BlueprintRequirement < ActiveRecord::Base
   def self.search(params)
     requirements = BlueprintRequirement.order(:requiredTypeID)
                                        .by_id(params[:id])
+                                       .by_activity_id(params[:activity_id])
                                        .joins("LEFT JOIN invTypes ON ramTypeRequirements.requiredTypeID = invTypes.typeID")
                                        .joins("LEFT JOIN ramActivities ON ramTypeRequirements.activityID = ramActivities.activityID")
                                        .paginate(:page => params[:page], :per_page => params[:limit])
