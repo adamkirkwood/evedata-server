@@ -30,7 +30,8 @@ class InventoryBlueprintType < ActiveRecord::Base
   
   def as_json(options={})
     options[:methods] = [:id, :name, :tech_level, :parent_id, :product_id, :production_time, :waste_factor, 
-    :max_production_limit, :research_productivity_time, :research_material_time, :research_copy_time, :research_tech_time]
+    :max_production_limit, :research_productivity_time, :research_material_time, :research_copy_time, :research_tech_time,
+    :images]
     options[:only] = [:id, :name, :tech_level, :parent_id, :product_id, :production_time, :waste_factor, 
     :max_production_limit, :research_productivity_time, :research_material_time, :research_copy_time, :research_tech_time]
     super
@@ -42,5 +43,12 @@ class InventoryBlueprintType < ActiveRecord::Base
                                        .by_product_id(params[:product_id])
                                        .joins("INNER JOIN invTypes ON invBlueprintTypes.blueprintTypeID = invTypes.typeID")
                                        .paginate(:page => params[:page], :per_page => params[:limit])
+  end
+  
+  def images
+    {
+      :small => "http://image.eveonline.com/Type/#{id}_32.png",
+      :thumb => "http://image.eveonline.com/Type/#{id}_64.png"
+    }
   end
 end
