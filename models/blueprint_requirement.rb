@@ -4,25 +4,43 @@ class BlueprintRequirement < ActiveRecord::Base
   
   alias_attribute :id, :typeID
   alias_attribute :activity_id, :activityID
+  alias_attribute :activity_name, :activityName
   alias_attribute :material_id, :requiredTypeID
+  alias_attribute :material_name, :typeName
   alias_attribute :damage_per_job, :damagePerJob
   
-  default_scope { select("ramTypeRequirements.*") }
+  default_scope { select("ramTypeRequirements.*, ramActivities.activityName, invTypes.typeName") }
   
-  scope :by_id, lambda { |value| where("typeID = ?", value) if value }
+  scope :by_id, lambda { |value| where("ramTypeRequirements.typeID = ?", value) if value }
   
   self.per_page = 25
   
   def as_json(options={})
-    options[:methods] = [:material_id, :activity_id, :damage_per_job, :images]
-    options[:only] = [:material_id, :activity_id, :damage_per_job]
+    options[:methods] = [:damage_per_job, :material, :activity, :images]
+    options[:only] = [:damage_per_job]
     super
   end
   
   def self.search(params)
     requirements = BlueprintRequirement.order(:requiredTypeID)
                                        .by_id(params[:id])
+                                       .joins("LEFT JOIN invTypes ON ramTypeRequirements.requiredTypeID = invTypes.typeID")
+                                       .joins("LEFT JOIN ramActivities ON ramTypeRequirements.activityID = ramActivities.activityID")
                                        .paginate(:page => params[:page], :per_page => params[:limit])
+  end
+  
+  def material
+    {
+      :id => material_id,
+      :name => material_name
+    }
+  end
+  
+  def activity
+    {
+      :id => activity_id,
+      :name => activity_name
+    }
   end
   
   def images
