@@ -33,6 +33,8 @@ class InventoryBlueprintType < ActiveRecord::Base
   
   scope :by_id, lambda { |value| where("blueprintTypeID = ?", value) if value }
   scope :by_product_id, lambda { |value| where("productTypeID = ?", value) if value }
+  scope :by_group_id, lambda { |value| where("invGroups.groupID = ?", "#{value}") if value }
+  scope :by_group_name, lambda { |value| where("lower(invGroups.groupName) = ?", "#{value.downcase}") if value }
   
   self.per_page = 25
   
@@ -49,6 +51,8 @@ class InventoryBlueprintType < ActiveRecord::Base
     blueprints = InventoryBlueprintType.order(:blueprintTypeID)
                                        .by_id(params[:id])
                                        .by_product_id(params[:product_id])
+                                       .by_group_id(params[:group_id])
+                                       .by_group_name(params[:group])
                                        .joins("LEFT JOIN invTypes ON invBlueprintTypes.blueprintTypeID = invTypes.typeID")
                                        .joins("LEFT JOIN invGroups ON invTypes.groupID = invGroups.groupID")
                                        .joins("LEFT JOIN invCategories ON invGroups.categoryID = invCategories.categoryID")
