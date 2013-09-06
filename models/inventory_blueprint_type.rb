@@ -21,7 +21,15 @@ class InventoryBlueprintType < ActiveRecord::Base
   alias_attribute :productivity_modifier, :productivityModifer
   alias_attribute :material_modifier, :materialModifer
   
-  default_scope { select("invTypes.typeName, invBlueprintTypes.*") }
+  #invGroups Attributes
+  alias_attribute :group_id, :groupID
+  alias_attribute :group_name, :groupName
+  
+  #invCategories Attributes
+  alias_attribute :category_name, :categoryName
+  alias_attribute :category_id, :categoryID
+  
+  default_scope { select("invTypes.*, invBlueprintTypes.*, invGroups.*, invCategories.*") }
   
   scope :by_id, lambda { |value| where("blueprintTypeID = ?", value) if value }
   scope :by_product_id, lambda { |value| where("productTypeID = ?", value) if value }
@@ -31,7 +39,7 @@ class InventoryBlueprintType < ActiveRecord::Base
   def as_json(options={})
     options[:methods] = [:id, :name, :tech_level, :parent_id, :product_id, :production_time, :waste_factor, 
     :max_production_limit, :research_productivity_time, :research_material_time, :research_copy_time, :research_tech_time,
-    :images]
+    :images, :group, :category]
     options[:only] = [:id, :name, :tech_level, :parent_id, :product_id, :production_time, :waste_factor, 
     :max_production_limit, :research_productivity_time, :research_material_time, :research_copy_time, :research_tech_time]
     super
@@ -41,7 +49,9 @@ class InventoryBlueprintType < ActiveRecord::Base
     blueprints = InventoryBlueprintType.order(:blueprintTypeID)
                                        .by_id(params[:id])
                                        .by_product_id(params[:product_id])
-                                       .joins("INNER JOIN invTypes ON invBlueprintTypes.blueprintTypeID = invTypes.typeID")
+                                       .joins("LEFT JOIN invTypes ON invBlueprintTypes.blueprintTypeID = invTypes.typeID")
+                                       .joins("LEFT JOIN invGroups ON invTypes.groupID = invGroups.groupID")
+                                       .joins("LEFT JOIN invCategories ON invGroups.categoryID = invCategories.categoryID")
                                        .paginate(:page => params[:page], :per_page => params[:limit])
   end
   
@@ -49,6 +59,20 @@ class InventoryBlueprintType < ActiveRecord::Base
     {
       :small => "http://image.eveonline.com/Type/#{id}_32.png",
       :thumb => "http://image.eveonline.com/Type/#{id}_64.png"
+    }
+  end
+  
+  def group
+    {
+      :id => group_id,
+      :name => group_name
+    }
+  end
+  
+  def category
+    {
+      :id => category_id,
+      :name => category_name
     }
   end
 end
