@@ -5,9 +5,7 @@ describe "blueprints - endpoint" do
   describe "/blueprints" do
     
     context "search endpoint WITHOUT PARAMS" do
-      it "returns 25 blueprints" do
-        get('/blueprints')
-      end
+      it "returns 25 blueprints"
     end
     
     context "search endpoint WITH ID" do
