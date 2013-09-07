@@ -1,26 +1,26 @@
-get '/items' do
+get '/blueprints' do
   content_type :json
   
   response ||= EveData::CacheManager.new.fetch(request.env['REQUEST_URI']) do
-    results = InventoryType.search(params)
+    results = InventoryBlueprintType.search(params)
     results.to_json
   end
 end
 
-get '/items/:id' do
+get '/blueprints/:id' do
   content_type :json
   
   response ||= EveData::CacheManager.new.fetch(request.env['REQUEST_URI']) do
-    results = InventoryType.search(params)
+    results = InventoryBlueprintType.search(params)
     results.to_json
   end
 end
 
-get '/items/:id/materials' do
+get '/blueprints/:id/requirements' do
   content_type :json
   
   response ||= EveData::CacheManager.new.fetch(request.env['REQUEST_URI']) do
-    results = InventoryTypeMaterial.search(params)
+    results = BlueprintRequirement.search(params)
     results.to_json
   end
 end
