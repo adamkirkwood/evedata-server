@@ -30,6 +30,8 @@ class InventoryBlueprintType < ActiveRecord::Base
   default_scope { select("invTypes.*, invBlueprintTypes.*, invGroups.*, invCategories.*") }
   
   scope :by_id, lambda { |value| where("blueprintTypeID = ?", value) if value }
+  scope :by_name, lambda { |value| where("lower(typeName) = ?", "#{value.downcase}") if value }
+  scope :by_like_name, lambda { |value| where("lower(typeName) LIKE ?", "%#{value.downcase}%") if value }
   scope :by_product_id, lambda { |value| where("productTypeID = ?", value) if value }
   scope :by_group_id, lambda { |value| where("invGroups.groupID = ?", "#{value}") if value }
   scope :by_group_name, lambda { |value| where("lower(invGroups.groupName) = ?", "#{value.downcase}") if value }
@@ -46,6 +48,8 @@ class InventoryBlueprintType < ActiveRecord::Base
   def self.search(params)
     blueprints = InventoryBlueprintType.order(:blueprintTypeID)
                                        .by_id(params[:id])
+                                       .by_name(params[:name])
+                                       .by_like_name(params[:like_name])
                                        .by_product_id(params[:product_id])
                                        .by_group_id(params[:group_id])
                                        .by_group_name(params[:group])
