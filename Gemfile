@@ -1,4 +1,4 @@
-if RUBY_PLATFORM =~ /java/
+if defined?(JRUBY_VERSION)
   ruby '2.0.0', :engine => 'jruby', :engine_version => '1.7.4'
 else
   ruby '1.9.3'
@@ -26,7 +26,7 @@ gem 'memcachier'
 gem 'snappy'
 
 group :production do
-  gem 'puma', :platform => :jruby
+  gem 'puma'
 end
 
 group :development do
