@@ -1,4 +1,9 @@
-ruby '1.9.3'
+if RUBY_PLATFORM =~ /java/
+  ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.1'
+else
+  ruby '1.9.3'
+end
+
 source 'http://rubygems.org'
 
 gem 'sinatra'
@@ -9,12 +14,20 @@ gem 'will_paginate'
 gem 'newrelic_rpm'
 
 # datastores
-gem 'mysql'
+if defined?(JRUBY_VERSION)
+  gem 'jdbc-mysql'
+else
+  gem 'mysql'
+end
 gem 'dalli'
 gem 'memcachier'
 
-gem 'unicorn'
+# misc
 gem 'snappy'
+
+group :production do
+  gem 'puma'
+end
 
 group :development do
   gem 'heroku'
@@ -22,6 +35,8 @@ group :development do
   gem 'rb-fsevent', '~> 0.9'
   gem 'tux'
   gem 'rake'
+  gem 'foreman'
+  gem 'rack'
   gem 'dotenv'
 end
 

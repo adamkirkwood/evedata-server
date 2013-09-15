@@ -3,4 +3,5 @@ tmp
 .rvmrc
 .rspec
 vendor/ruby
+vendor/jruby
 .env
