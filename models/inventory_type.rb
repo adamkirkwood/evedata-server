@@ -11,9 +11,10 @@ class InventoryType < ActiveRecord::Base
   alias_attribute :category_name, :categoryName
   alias_attribute :category_id, :categoryID
   alias_attribute :base_price, :basePrice
+  alias_attribute :units_produced, :portionSize
   
   default_scope { where(:published => true) }
-  default_scope { select("invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.basePrice, invTypes.volume, invTypes.mass, invTypes.capacity, invTypes.description, invGroups.groupID, invGroups.groupName, invCategories.categoryName, invCategories.categoryID") }
+  default_scope { select("invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.basePrice, invTypes.volume, invTypes.mass, invTypes.capacity, invTypes.description, invGroups.groupID, invGroups.groupName, invCategories.categoryName, invCategories.categoryID, invTypes.portionSize") }
   
   scope :by_id, lambda { |value| where("typeID = ?", value) if value }
   scope :by_name, lambda { |value| where("lower(typeName) = ?", "#{value.downcase}") if value }
@@ -25,7 +26,7 @@ class InventoryType < ActiveRecord::Base
   self.per_page = 25
   
   def as_json(options={})
-    options[:methods] = [:id, :name, :images, :group, :category, :base_price]
+    options[:methods] = [:id, :name, :images, :group, :category, :base_price, :units_produced]
     options[:only] = [:id, :name, :base_price, :volume, :mass, :capacity, :description]
     super
   end
