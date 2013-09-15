@@ -11,12 +11,14 @@ class InventoryType < ActiveRecord::Base
   alias_attribute :category_name, :categoryName
   alias_attribute :category_id, :categoryID
   alias_attribute :base_price, :basePrice
+  alias_attribute :portion_size, :portionSize
   
   default_scope { where(:published => true) }
-  default_scope { select("invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.basePrice, invTypes.volume, invTypes.mass, invTypes.capacity, invTypes.description, invGroups.groupID, invGroups.groupName, invCategories.categoryName, invCategories.categoryID") }
+  default_scope { select("invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.basePrice, invTypes.volume, invTypes.mass, invTypes.capacity, invTypes.description, invGroups.groupID, invGroups.groupName, invCategories.categoryName, invCategories.categoryID, invTypes.portionSize") }
   
   scope :by_id, lambda { |value| where("typeID = ?", value) if value }
   scope :by_name, lambda { |value| where("lower(typeName) = ?", "#{value.downcase}") if value }
+  scope :by_like_name, lambda { |value| where("lower(typeName) LIKE ?", "%#{value.downcase}%") if value }
   scope :by_group_id, lambda { |value| where("invGroups.groupID = ?", "#{value}") if value }
   scope :by_group_name, lambda { |value| where("lower(invGroups.groupName) = ?", "#{value.downcase}") if value }
   scope :by_category_id, lambda { |value| where("invCategories.categoryID = ?", "#{value}") if value }
@@ -25,7 +27,7 @@ class InventoryType < ActiveRecord::Base
   self.per_page = 25
   
   def as_json(options={})
-    options[:methods] = [:id, :name, :images, :group, :category, :base_price]
+    options[:methods] = [:id, :name, :images, :group, :category, :base_price, :portion_size]
     options[:only] = [:id, :name, :base_price, :volume, :mass, :capacity, :description]
     super
   end
@@ -34,6 +36,7 @@ class InventoryType < ActiveRecord::Base
     items = InventoryType.order(:typeID)
                          .by_id(params[:id])
                          .by_name(params[:name])
+                         .by_like_name(params[:like_name])
                          .by_group_id(params[:group_id])
                          .by_group_name(params[:group])
                          .by_category_id(params[:category_id])
