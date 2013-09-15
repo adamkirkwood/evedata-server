@@ -8,7 +8,7 @@
 
 # worker_processes 3
 # timeout 3
-preload_app!
+# preload_app!
 threads 0,5
 
 on_worker_boot do
