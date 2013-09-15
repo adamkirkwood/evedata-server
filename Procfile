@@ -1,1 +1,1 @@
-web: bundle exec rackup -s puma ./config/puma.rb -p $PORT
+web: bundle exec puma -p $PORT -w 3 -t 0:5
