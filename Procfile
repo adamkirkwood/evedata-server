@@ -1,1 +1,1 @@
-web: bundle exec unicorn -p $PORT -c ./unicorn.rb
+web: bundle exec rails server puma -p $PORT -e $RACK_ENV

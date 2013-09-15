@@ -1,4 +1,4 @@
-ruby '1.9.3'
+ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.1'
 source 'http://rubygems.org'
 
 gem 'sinatra'
@@ -9,12 +9,16 @@ gem 'will_paginate'
 gem 'newrelic_rpm'
 
 # datastores
-gem 'mysql'
+gem 'jdbc-mysql'
 gem 'dalli'
 gem 'memcachier'
 
-gem 'unicorn'
+# misc
 gem 'snappy'
+
+group :production do
+  gem 'puma'
+end
 
 group :development do
   gem 'heroku'
