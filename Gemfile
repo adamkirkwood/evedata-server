@@ -1,9 +1,4 @@
-if defined?(JRUBY_VERSION)
-  ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.1'
-else
-  ruby '1.9.3'
-end
-
+ruby '1.9.3'
 source 'http://rubygems.org'
 
 gem 'sinatra'
