@@ -8,8 +8,9 @@
 # rackup "#{root}/config.ru"
 # state_path "#{root}/tmp/pids/puma.state"
 
-workers 3
-preload_app!
+workers 2
+# timeout 3
+# preload_app!
 threads 0, 5
 
 on_worker_boot do
