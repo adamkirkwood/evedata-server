@@ -1,3 +1,5 @@
+#!/usr/bin/env puma
+
 # root = "#{Dir.getwd}"
 
 # activate_control_app "tcp://127.0.0.1:9293"
@@ -6,10 +8,10 @@
 # rackup "#{root}/config.ru"
 # state_path "#{root}/tmp/pids/puma.state"
 
-# worker_processes 3
+workers 2
 # timeout 3
 # preload_app!
-threads 0,5
+threads 0, 5
 
 on_worker_boot do
   ActiveRecord::Base.connection_pool.disconnect!
