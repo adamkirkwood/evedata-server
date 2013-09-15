@@ -26,7 +26,7 @@ gem 'memcachier'
 gem 'snappy'
 
 group :production do
-  gem 'puma'
+  gem 'puma', :platform => :jruby
 end
 
 group :development do
@@ -38,6 +38,7 @@ group :development do
   gem 'foreman'
   gem 'rack'
   gem 'dotenv'
+  gem 'puma'
 end
 
 group :test do
