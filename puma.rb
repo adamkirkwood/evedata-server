@@ -1,5 +1,3 @@
-environment ENV['RACK_ENV']
-
 root = "#{Dir.getwd}"
 
 activate_control_app "tcp://127.0.0.1:9293"
