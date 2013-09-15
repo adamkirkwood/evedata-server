@@ -16,3 +16,7 @@ configure :production do
   require 'newrelic_rpm'
   require 'memcachier'
 end
+
+if __FILE__ == $0
+  Pumatra.run!
+end
