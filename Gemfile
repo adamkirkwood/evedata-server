@@ -1,4 +1,4 @@
-if defined?(JRUBY_VERSION)
+if ENV['RACK_ENV'] == 'production'
   ruby '2.0.0', :engine => 'jruby', :engine_version => '1.7.4'
 else
   ruby '1.9.3'
