@@ -1,5 +1,5 @@
-if defined?(RACK_ENV)
-  ruby '2.0.0', :engine => 'jruby', :engine_version => '1.7.4'
+if defined?(JRUBY_VERSION)
+  ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.1'
 else
   ruby '1.9.3'
 end
