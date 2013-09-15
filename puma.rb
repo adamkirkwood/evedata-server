@@ -5,3 +5,5 @@ bind "unix:///tmp/puma.pumatra.sock"
 pidfile "#{root}/tmp/pids/puma.pid"
 rackup "#{root}/config.ru"
 state_path "#{root}/tmp/pids/puma.state"
+
+worker_processes 3
