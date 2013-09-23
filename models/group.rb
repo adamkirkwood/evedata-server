@@ -7,6 +7,7 @@ class Group < ActiveRecord::Base
   alias_attribute :category_id, :categoryID
   alias_attribute :category_name, :categoryName
   
+  default_scope { where(:published => true) }
   default_scope { select("invGroups.*, invCategories.categoryName") }
   
   scope :by_id, lambda { |value| where("groupID = ?", value) if value }

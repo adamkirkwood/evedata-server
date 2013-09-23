@@ -5,6 +5,7 @@ class Category < ActiveRecord::Base
   alias_attribute :id, :categoryID
   alias_attribute :name, :categoryName
   
+  default_scope { where(:published => true) }
   default_scope { select("invCategories.*") }
   
   scope :by_id, lambda { |value| where("categoryID = ?", value) if value }
