@@ -27,6 +27,7 @@ class InventoryBlueprintType < ActiveRecord::Base
   alias_attribute :category_name, :categoryName
   alias_attribute :category_id, :categoryID
   
+  default_scope { where("invTypes.published = true") }
   default_scope { select("invTypes.*, invBlueprintTypes.*, invGroups.*, invCategories.*") }
   
   scope :by_id, lambda { |value| where("blueprintTypeID = ?", value) if value }
