@@ -1,1 +1,1 @@
-web: bundle exec rackup -s puma -p $PORT -e production
+web: bundle exec puma -p $PORT -w 4 -t 0:5
