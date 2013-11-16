@@ -13,8 +13,10 @@ class InventoryType < ActiveRecord::Base
   alias_attribute :base_price, :basePrice
   alias_attribute :portion_size, :portionSize
   
+  alias_attribute :blueprint_id, :blueprintTypeID
+  
   default_scope { where(:published => true) }
-  default_scope { select("invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.basePrice, invTypes.volume, invTypes.mass, invTypes.capacity, invTypes.description, invGroups.groupID, invGroups.groupName, invCategories.categoryName, invCategories.categoryID, invTypes.portionSize") }
+  default_scope { select("invTypes.typeID, invTypes.groupID, invTypes.typeName, invTypes.basePrice, invTypes.volume, invTypes.mass, invTypes.capacity, invTypes.description, invGroups.groupID, invGroups.groupName, invCategories.categoryName, invCategories.categoryID, invTypes.portionSize, invBlueprintTypes.blueprintTypeID") }
   
   scope :by_id, lambda { |value| where("typeID = ?", value) if value }
   scope :by_name, lambda { |value| where("lower(typeName) = ?", "#{value.downcase}") if value }
@@ -27,8 +29,8 @@ class InventoryType < ActiveRecord::Base
   self.per_page = 25
   
   def as_json(options={})
-    options[:methods] = [:id, :name, :images, :group, :category, :base_price, :portion_size]
-    options[:only] = [:id, :name, :base_price, :volume, :mass, :capacity, :description]
+    options[:methods] = [:id, :name, :images, :group, :category, :base_price, :portion_size, :blueprint_id]
+    options[:only] = [:id, :name, :base_price, :volume, :mass, :capacity, :description, :blueprint_id]
     super
   end
   
@@ -41,6 +43,7 @@ class InventoryType < ActiveRecord::Base
                          .by_group_name(params[:group])
                          .by_category_id(params[:category_id])
                          .by_category_name(params[:category])
+                         .joins("LEFT JOIN invBlueprintTypes ON invTypes.typeID = invBlueprintTypes.productTypeID")
                          .joins("LEFT JOIN invGroups ON invTypes.groupID = invGroups.groupID")
                          .joins("LEFT JOIN invCategories ON invGroups.categoryID = invCategories.categoryID")
                          .paginate(:page => params[:page], :per_page => params[:limit])
