@@ -11,6 +11,9 @@ class InventoryBlueprintType < ActiveRecord::Base
   alias_attribute :waste_factor, :wasteFactor
   alias_attribute :max_production_limit, :maxProductionLimit
   
+  #Item
+  alias_attribute :product_batch_size, :portionSize
+  
   #Research Attributes
   alias_attribute :research_productivity_time, :researchProductivityTime
   alias_attribute :research_material_time, :researchMaterialTime
@@ -27,8 +30,8 @@ class InventoryBlueprintType < ActiveRecord::Base
   alias_attribute :category_name, :categoryName
   alias_attribute :category_id, :categoryID
   
-  default_scope { where("invTypes.published = true") }
-  default_scope { select("invTypes.*, invBlueprintTypes.*, invGroups.*, invCategories.*") }
+  default_scope { where("t.published = true") }
+  default_scope { select("t.typeName, t2.portionSize, invBlueprintTypes.*, invGroups.*, invCategories.*") }
   
   scope :by_id, lambda { |value| where("blueprintTypeID = ?", value) if value }
   scope :by_name, lambda { |value| where("lower(typeName) = ?", "#{value.downcase}") if value }
@@ -40,9 +43,9 @@ class InventoryBlueprintType < ActiveRecord::Base
   self.per_page = 25
   
   def as_json(options={})
-    options[:methods] = [:id, :name, :tech_level, :parent_id, :product_id, :production_time, :waste_factor, 
-    :max_production_limit, :images, :research, :group, :category]
-    options[:only] = [:id, :name, :tech_level, :parent_id, :product_id, :production_time, :waste_factor, :max_production_limit]
+    options[:methods] = [:id, :name, :tech_level, :parent_id, :production_time, :waste_factor, 
+    :max_production_limit, :images, :product, :research, :group, :category]
+    options[:only] = [:id, :name, :tech_level, :parent_id, :production_time, :waste_factor, :max_production_limit]
     super
   end
   
@@ -54,8 +57,9 @@ class InventoryBlueprintType < ActiveRecord::Base
                                        .by_product_id(params[:product_id])
                                        .by_group_id(params[:group_id])
                                        .by_group_name(params[:group])
-                                       .joins("LEFT JOIN invTypes ON invBlueprintTypes.blueprintTypeID = invTypes.typeID")
-                                       .joins("LEFT JOIN invGroups ON invTypes.groupID = invGroups.groupID")
+                                       .joins("LEFT JOIN invTypes t ON invBlueprintTypes.blueprintTypeID = t.typeID")
+                                       .joins("LEFT JOIN invTypes t2 ON invBlueprintTypes.productTypeID = t2.typeID")
+                                       .joins("LEFT JOIN invGroups ON t.groupID = invGroups.groupID")
                                        .joins("LEFT JOIN invCategories ON invGroups.categoryID = invCategories.categoryID")
                                        .paginate(:page => params[:page], :per_page => params[:limit])
   end
@@ -65,6 +69,13 @@ class InventoryBlueprintType < ActiveRecord::Base
       :small => "http://image.eveonline.com/Type/#{id}_32.png",
       :thumb => "http://image.eveonline.com/Type/#{id}_64.png"
     }
+  end
+  
+  def product
+  	{
+  		:id => product_id,
+  		:batch_size => product_batch_size
+  	}
   end
   
   def research
