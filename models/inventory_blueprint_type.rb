@@ -34,8 +34,8 @@ class InventoryBlueprintType < ActiveRecord::Base
   default_scope { select("t.typeName, t2.portionSize, invBlueprintTypes.*, invGroups.*, invCategories.*") }
   
   scope :by_id, lambda { |value| where("blueprintTypeID = ?", value) if value }
-  scope :by_name, lambda { |value| where("lower(typeName) = ?", "#{value.downcase}") if value }
-  scope :by_like_name, lambda { |value| where("lower(typeName) LIKE ?", "%#{value.downcase}%") if value }
+  scope :by_name, lambda { |value| where("lower(t.typeName) = ?", "#{value.downcase}") if value }
+  scope :by_like_name, lambda { |value| where("lower(t.typeName) LIKE ?", "%#{value.downcase}%") if value }
   scope :by_product_id, lambda { |value| where("productTypeID = ?", value) if value }
   scope :by_group_id, lambda { |value| where("invGroups.groupID = ?", "#{value}") if value }
   scope :by_group_name, lambda { |value| where("lower(invGroups.groupName) = ?", "#{value.downcase}") if value }
