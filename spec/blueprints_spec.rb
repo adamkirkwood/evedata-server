@@ -4,14 +4,19 @@ describe "blueprints - endpoint" do
 
   describe "/blueprints" do
     
-    context "search endpoint WITHOUT PARAMS" do
+    context "search WITHOUT PARAMS" do
       it "returns 25 blueprints" do
-        get('/blueprints')
+        get '/blueprints'
+        expect(last_response).to be_ok
+        expect(last_response.body).to be_a(Array)
       end
     end
     
-    context "search endpoint WITH ID" do
-      it "returns JSON for the blueprint"
+    context "search WITH ID" do
+      it "returns JSON for the blueprint" do
+      	get '/'
+      	expect(last_response).to be_ok
+      end
     end
     
   end

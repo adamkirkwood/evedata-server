@@ -16,8 +16,13 @@ require 'rack/test'
   Dir["./#{dir}/*.rb"].each { |file| require file }
 end
 
+module RSpecMixin
+  include Rack::Test::Methods
+  def app() Sinatra::Application end
+end
+
 RSpec.configure do |config|
-  config.include Rack::Test::Methods
+  config.include RSpecMixin
   
   config.expect_with :rspec do |c|
     c.syntax = :expect
