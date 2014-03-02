@@ -5,6 +5,7 @@ class InventoryTypeMaterial < ActiveRecord::Base
   alias_attribute :id, :typeID
   alias_attribute :material_id, :materialTypeID
   alias_attribute :material_name, :typeName
+  alias_attribute :material_blueprint_id, :blueprintTypeID
   
   alias_attribute :group_id, :groupID
   alias_attribute :group_name, :groupName
@@ -12,7 +13,7 @@ class InventoryTypeMaterial < ActiveRecord::Base
   alias_attribute :category_name, :categoryName
   alias_attribute :category_id, :categoryID
   
-  default_scope { select("invTypeMaterials.*, invTypes.*, invGroups.*, invCategories.*") }
+  default_scope { select("invTypeMaterials.*, invTypes.*, invGroups.*, invCategories.*, invBlueprintTypes.blueprintTypeID") }
   
   scope :by_id, lambda { |value| where("invTypeMaterials.typeID = ?", value) if value }
   scope :by_category_id, lambda { |value| where("invCategories.categoryID = ?", value) if value }
@@ -28,19 +29,21 @@ class InventoryTypeMaterial < ActiveRecord::Base
   
   def self.search(params)
     materials = InventoryTypeMaterial.order(:materialTypeID)
-                                       .by_id(params[:id])
-                                       .by_category_id(params[:category_id])
-                                       .by_not_category_id(params[:not_category_id])
-                                       .joins("LEFT JOIN invTypes ON invTypeMaterials.materialTypeID = invTypes.typeID")
-                                       .joins("LEFT JOIN invGroups ON invTypes.groupID = invGroups.groupID")
-                                       .joins("LEFT JOIN invCategories ON invGroups.categoryID = invCategories.categoryID")
-                                       .paginate(:page => params[:page], :per_page => params[:limit])
+                                     .by_id(params[:id])
+                                     .by_category_id(params[:category_id])
+                                     .by_not_category_id(params[:not_category_id])
+                                     .joins("LEFT JOIN invTypes ON invTypeMaterials.materialTypeID = invTypes.typeID")
+                                     .joins("LEFT JOIN invGroups ON invTypes.groupID = invGroups.groupID")
+                                     .joins("LEFT JOIN invCategories ON invGroups.categoryID = invCategories.categoryID")
+																		 .joins("LEFT JOIN invBlueprintTypes ON invTypes.typeID = invBlueprintTypes.productTypeID")
+                                     .paginate(:page => params[:page], :per_page => params[:limit])
   end
   
   def material
     {
       :id => material_id,
-      :name => material_name
+      :name => material_name,
+			:blueprint_id => material_blueprint_id
     }
   end
   
