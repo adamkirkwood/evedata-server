@@ -13,7 +13,7 @@ class Station < ActiveRecord::Base
   default_scope select("mapDenormalize.*")
 
   scope :by_id, lambda { |value| where("itemID = ?", value) if value }
-  scope :by_name, lambda { |value| where("lower(itemName) = ?", "#{value}") if value }
+  scope :by_name, lambda { |value| where('lower(itemName) LIKE ?', "%#{value.downcase}%") if value }
   scope :by_solar_system, lambda { |value| where("solarSystemID = ?", value) if value }
   
   self.per_page = 25
